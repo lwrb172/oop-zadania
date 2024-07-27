@@ -24,4 +24,17 @@ public class Segment {
                 "\" style=\"stroke:black;stroke-width:2\" /> " +
                 "</svg>";
     }
+
+    public double length() {
+        return Math.hypot(p2.x - p1.x, p2.y - p1.y);
+    }
+
+    static public Segment[] perpendicularSegments(Segment segment, Point point) {
+        double dx = segment.p2.x - segment.p1.x;
+        double dy = segment.p2.y - segment.p1.y;
+
+        return new Segment[]{
+                new Segment(point, new Point(point.x - dy, point.y + dx)),
+                        new Segment(point, new Point(point.x + dy, point.y - dx))};
+    }
 }
