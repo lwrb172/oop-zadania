@@ -10,5 +10,7 @@ public class Main {
         Point[] points = new Point[]{p1, p2};
         Polygon pol1 = new Polygon(points);
         System.out.println(pol1.toSvg());
+        Polygon pol1Copy = new Polygon(pol1);
+        System.out.println(pol1Copy.toSvg());
     }
 }
