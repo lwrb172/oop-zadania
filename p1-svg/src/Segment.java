@@ -21,7 +21,7 @@ public class Segment {
     public String toSvg() {
         return "<svg height=\"200\" width=\"300\" xmlns=\"http://www.w3.org/2000/svg\"> " +
                 "<line x1=\"" + p1.x +"\" y1=\"" + p1.y + "\" x2=\"" + p2.x + "\" y2=\"" + p2.y +
-                "\" style=\"stroke:black;stroke-width:2\" /> " +
+                "\" /> " +
                 "</svg>";
     }
 
@@ -29,9 +29,9 @@ public class Segment {
         return Math.hypot(p2.x - p1.x, p2.y - p1.y);
     }
 
-    static public Segment[] perpendicularSegments(Segment segment, Point point) {
-        double dx = segment.p2.x - segment.p1.x;
-        double dy = segment.p2.y - segment.p1.y;
+    static public Segment[] perpendicularSegments(Segment segment, Point point, double length) {
+        double dx = (segment.p2.x - segment.p1.x) / segment.length() * length;
+        double dy = (segment.p2.y - segment.p1.y) / segment.length() * length;
 
         return new Segment[]{
                 new Segment(point, new Point(point.x - dy, point.y + dx)),

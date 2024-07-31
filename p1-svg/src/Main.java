@@ -10,6 +10,7 @@ public class Main {
         Style unit00 = new Style("steelblue", "darkblue", 5.0);
         Style unit01 = new Style("mediumpurple", "green", 5.0);
         Style unit02 = new Style("crimson", "goldenrod", 5.0);
+        Style unit03 = new Style("darkslateblue", "black", 5.0);
         // triangle
         Point t1 = new Point(100, 10);
         Point t2 = new Point(150, 190);
@@ -33,10 +34,14 @@ public class Main {
         Point s5 = new Point(160, 198);
         Point[] starPoints = new Point[]{s1, s2, s3, s4, s5};
         Polygon star = new Polygon(starPoints, unit02);
+        // square
+        Segment diagonal = new Segment(new Point(25,25), new Point(175, 175));
+        Polygon square = Polygon.square(diagonal, unit03);
         // scene
         scene.add(triangle);
         scene.add(sixSides);
         scene.add(star);
+        scene.add(square);
         try {
             scene.save("scene.html");
         } catch (IOException e) {
