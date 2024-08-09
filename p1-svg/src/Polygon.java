@@ -19,14 +19,15 @@ public class Polygon extends Shape {
         this.style = new Style(other.style.getFillColor(), other.style.getStrokeColor(), other.style.getStrokeWidth());
     }
 
+    @Override
     public String toSvg() {
         StringBuilder sb = new StringBuilder();
-        sb.append("<svg height=\"280\" width=\"500\" xmlns=\"http://www.w3.org/2000/svg\"> " +
-                "<polygon points=\"");
+        sb.append("<svg height=\"280\" width=\"500\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+                "\t<polygon points=\"");
         for (Point point : points) {
             sb.append(point.x).append(",").append(point.y).append(" ");
         }
-        sb.append("\" ").append(this.style.toSvg()).append(" /> ").append("</svg>");
+        sb.append("\"\n\t").append(this.style.toSvg()).append(" />\n").append("</svg>\n");
         return sb.toString();
     }
 

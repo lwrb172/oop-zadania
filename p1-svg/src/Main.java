@@ -3,14 +3,15 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        // polygons list and scene
-        ArrayList<Polygon> polygons = new ArrayList<>();
-        SvgScene scene = new SvgScene(polygons);
+        // shapes list and scene
+        ArrayList<Shape> shapes = new ArrayList<>();
+        SvgScene scene = new SvgScene(shapes);
         // styles
         Style unit00 = new Style("steelblue", "darkblue", 5.0);
         Style unit01 = new Style("mediumpurple", "green", 5.0);
         Style unit02 = new Style("crimson", "goldenrod", 5.0);
         Style unit03 = new Style("darkslateblue", "black", 5.0);
+        Style unit04 = new Style("gainsboro", "black", 5.0);
         // triangle
         Point t1 = new Point(100, 10);
         Point t2 = new Point(150, 190);
@@ -37,11 +38,15 @@ public class Main {
         // square
         Segment diagonal = new Segment(new Point(25,25), new Point(175, 175));
         Polygon square = Polygon.square(diagonal, unit03);
+        // ellipse
+        Point center = new Point(120, 80);
+        Ellipse ellipse = new Ellipse(center, 100, 50, unit04);
         // scene
         scene.add(triangle);
         scene.add(sixSides);
         scene.add(star);
         scene.add(square);
+        scene.add(ellipse);
         try {
             scene.save("scene.html");
         } catch (IOException e) {
