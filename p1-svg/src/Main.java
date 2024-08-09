@@ -26,7 +26,7 @@ public class Main {
         Point ss6 = new Point(42, 77);
         Point[] sixSidesPoints = new Point[]{ss1, ss2, ss3, ss4, ss5, ss6};
         Polygon sixSides = new Polygon(sixSidesPoints, unit01);
-        // star
+        // starS
         Point s1 = new Point(100, 10);
         Point s2 = new Point(40, 198);
         Point s3 = new Point(190, 78);

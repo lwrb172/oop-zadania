@@ -1,15 +1,13 @@
-public class Polygon {
+public class Polygon extends Shape {
     private Point[] points;
-    private Style style;
+
+    public Polygon(Point[] points, Style style) {
+        super(style);
+        this.points = points;
+    }
 
     public Polygon(Point[] points) {
         this.points = points;
-        this.style = new Style();
-    }
-
-    public Polygon(Point[] points, Style style) {
-        this.points = points;
-        this.style = style;
     }
 
     public Polygon(Polygon other) {
