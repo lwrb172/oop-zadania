@@ -1,15 +1,16 @@
-public class Ellipse extends Shape {
-    private Point center;
+public class Ellipse implements Shape {
+    private Vec2 center;
     private double rx, ry;
+    private Style style;
 
-    public Ellipse(Point center, double rx, double ry, Style style) {
-        super(style);
+    public Ellipse(Vec2 center, double rx, double ry, Style style) {
         this.center = center;
         this.rx = rx;
         this.ry = ry;
+        this.style = style;
     }
 
-    public Ellipse(Point center, double rx, double ry) {
+    public Ellipse(Vec2 center, double rx, double ry) {
         this.center = center;
         this.rx = rx;
         this.ry = ry;

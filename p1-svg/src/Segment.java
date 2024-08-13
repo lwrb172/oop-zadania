@@ -1,16 +1,16 @@
 public class Segment {
-    private Point p1, p2;
+    private Vec2 p1, p2;
 
-    public Segment(Point p1, Point p2) {
+    public Segment(Vec2 p1, Vec2 p2) {
         this.p1 = p1;
         this.p2 = p2;
     }
 
-    public Point getP1() {
+    public Vec2 getP1() {
         return p1;
     }
 
-    public Point getP2() {
+    public Vec2 getP2() {
         return p2;
     }
 
@@ -29,12 +29,12 @@ public class Segment {
         return Math.hypot(p2.x - p1.x, p2.y - p1.y);
     }
 
-    static public Segment[] perpendicularSegments(Segment segment, Point point, double length) {
+    static public Segment[] perpendicularSegments(Segment segment, Vec2 vec2, double length) {
         double dx = (segment.p2.x - segment.p1.x) / segment.length() * length;
         double dy = (segment.p2.y - segment.p1.y) / segment.length() * length;
 
         return new Segment[]{
-                new Segment(point, new Point(point.x - dy, point.y + dx)),
-                        new Segment(point, new Point(point.x + dy, point.y - dx))};
+                new Segment(vec2, new Vec2(vec2.x - dy, vec2.y + dx)),
+                        new Segment(vec2, new Vec2(vec2.x + dy, vec2.y - dx))};
     }
 }
