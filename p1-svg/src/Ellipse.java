@@ -11,11 +11,6 @@ public class Ellipse implements Shape {
     }
 
     @Override
-    public String toSvg() {
-        return "";
-    }
-
-    @Override
     public String toSvg(String parameters) {
         return String.format(Locale.ENGLISH,
                 "<svg height=\"140\" width=\"500\">\n" +

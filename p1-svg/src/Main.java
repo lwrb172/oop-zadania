@@ -11,7 +11,8 @@ public class Main {
         Vec2 t2 = new Vec2(150, 190);
         Vec2 t3 = new Vec2(50, 190);
         Vec2[] trianglePoints = new Vec2[]{t1, t2, t3};
-        SolidFilledPolygon triangle = new SolidFilledPolygon(trianglePoints, "yellow");
+        Shape triangle = new Polygon(trianglePoints);
+        triangle = new SolidFillShapeDecorator(triangle, "yellow");
         // six-sides
         Vec2 ss1 = new Vec2(150, 15);
         Vec2 ss2 = new Vec2(258, 77);
@@ -20,7 +21,8 @@ public class Main {
         Vec2 ss5 = new Vec2(42, 202);
         Vec2 ss6 = new Vec2(42, 77);
         Vec2[] sixSidesPoints = new Vec2[]{ss1, ss2, ss3, ss4, ss5, ss6};
-        SolidFilledPolygon sixSides = new SolidFilledPolygon(sixSidesPoints, "green");
+        Shape sixSides = new Polygon(sixSidesPoints);
+        sixSides = new SolidFillShapeDecorator(sixSides, "green");
         // starS
         Vec2 s1 = new Vec2(100, 10);
         Vec2 s2 = new Vec2(40, 198);
@@ -28,14 +30,17 @@ public class Main {
         Vec2 s4 = new Vec2(10, 78);
         Vec2 s5 = new Vec2(160, 198);
         Vec2[] starPoints = new Vec2[]{s1, s2, s3, s4, s5};
-        SolidFilledPolygon star = new SolidFilledPolygon(starPoints, "orange");
+        Shape star = new Polygon(starPoints);
+        star = new SolidFillShapeDecorator(star, "orange");
         // square
         Segment diagonal = new Segment(new Vec2(25, 25), new Vec2(175, 175));
         Vec2[] vertices = Polygon.square(diagonal);
-        SolidFilledPolygon square = new SolidFilledPolygon(vertices, "purple");
+        Shape square = new Polygon(vertices);
+        square = new SolidFillShapeDecorator(square, "purple");
         // ellipse
         Vec2 center = new Vec2(120, 80);
-        SolidFilledEllipse ellipse = new SolidFilledEllipse(center, 100, 50, "red");
+        Shape ellipse = new Ellipse(center, 100, 50);
+        ellipse = new SolidFillShapeDecorator(ellipse, "red");
         // scene
         scene.add(triangle);
         scene.add(sixSides);

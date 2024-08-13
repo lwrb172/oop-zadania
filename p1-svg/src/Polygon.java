@@ -8,11 +8,6 @@ public class Polygon implements Shape {
     }
 
     @Override
-    public String toSvg() {
-        return "";
-    }
-
-    @Override
     public String toSvg(String parameters) {
         StringBuilder result = new StringBuilder();
         String scene = "<svg height=\"280\" width=\"500\">\n";
