@@ -13,6 +13,7 @@ public class Main {
         Vec2[] trianglePoints = new Vec2[]{t1, t2, t3};
         Shape triangle = new Polygon(trianglePoints);
         triangle = new SolidFillShapeDecorator(triangle, "yellow");
+        triangle = new StrokeShapeDecorator(triangle, "orange", 5.0);
         // six-sides
         Vec2 ss1 = new Vec2(150, 15);
         Vec2 ss2 = new Vec2(258, 77);
@@ -23,6 +24,7 @@ public class Main {
         Vec2[] sixSidesPoints = new Vec2[]{ss1, ss2, ss3, ss4, ss5, ss6};
         Shape sixSides = new Polygon(sixSidesPoints);
         sixSides = new SolidFillShapeDecorator(sixSides, "green");
+        sixSides = new StrokeShapeDecorator(sixSides, "purple", 5.0);
         // starS
         Vec2 s1 = new Vec2(100, 10);
         Vec2 s2 = new Vec2(40, 198);
@@ -31,16 +33,19 @@ public class Main {
         Vec2 s5 = new Vec2(160, 198);
         Vec2[] starPoints = new Vec2[]{s1, s2, s3, s4, s5};
         Shape star = new Polygon(starPoints);
-        star = new SolidFillShapeDecorator(star, "orange");
+        star = new SolidFillShapeDecorator(star, "red");
+        star = new StrokeShapeDecorator(star, "orange", 5.0);
         // square
         Segment diagonal = new Segment(new Vec2(25, 25), new Vec2(175, 175));
         Vec2[] vertices = Polygon.square(diagonal);
         Shape square = new Polygon(vertices);
-        square = new SolidFillShapeDecorator(square, "purple");
+        square = new SolidFillShapeDecorator(square, "pink");
+        square = new StrokeShapeDecorator(square, "purple", 5.0);
         // ellipse
         Vec2 center = new Vec2(120, 80);
         Shape ellipse = new Ellipse(center, 100, 50);
-        ellipse = new SolidFillShapeDecorator(ellipse, "red");
+        ellipse = new SolidFillShapeDecorator(ellipse, "orange");
+        ellipse = new StrokeShapeDecorator(ellipse, "blue", 5.0);
         // scene
         scene.add(triangle);
         scene.add(sixSides);
