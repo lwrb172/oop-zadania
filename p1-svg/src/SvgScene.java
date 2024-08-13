@@ -14,13 +14,23 @@ public class SvgScene {
         shapes.add(shape);
     }
 
-    public void save(String path) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-        writer.append("<!DOCTYPE html>\n<html>\n<body>\n\n");
-        for (Shape shape : shapes) {
-            writer.append(shape.toSvg()).append("\n");
+    public void save(String path) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+            writer.write("<!DOCTYPE html>\n");
+            writer.write("<html>\n");
+            writer.write("<body>\n");
+            writer.write("\n");
+            for (Shape shape : shapes) {
+                writer.write(shape.toSvg(""));
+            }
+            writer.write("\n");
+            writer.write("</body>\n");
+            writer.write("</html>\n");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("can't write to " + path);
         }
-        writer.append("</body>\n</html>");
-        writer.close();
     }
 }

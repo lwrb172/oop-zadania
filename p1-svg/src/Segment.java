@@ -1,3 +1,5 @@
+import java.util.Locale;
+
 public class Segment {
     private Vec2 p1, p2;
 
@@ -19,10 +21,9 @@ public class Segment {
     }
 
     public String toSvg() {
-        return "<svg height=\"200\" width=\"300\" xmlns=\"http://www.w3.org/2000/svg\"> " +
-                "<line x1=\"" + p1.x +"\" y1=\"" + p1.y + "\" x2=\"" + p2.x + "\" y2=\"" + p2.y +
-                "\" /> " +
-                "</svg>";
+        return String.format(Locale.ENGLISH, "<svg height=\"200\" width=\"300\">\n" +
+                "\t<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" />\n" +
+                "</svg>\n", p1.x, p1.y, p2.x, p2.y);
     }
 
     public double length() {
