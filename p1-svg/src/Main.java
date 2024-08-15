@@ -1,4 +1,3 @@
-
 public class Main {
     public static void main(String[] args) {
         // triangle
@@ -12,6 +11,7 @@ public class Main {
                 .rotate(new Vec2(0,0), -27)
                 .scale(new Vec2(1.2, 1.2))
                 .build();
+        triangle = new DropShadowDecorator(triangle);
         triangle = new SolidFillShapeDecorator(triangle, "yellow");
         triangle = new StrokeShapeDecorator(triangle, "orange", 5.0);
         // six-sides
@@ -28,6 +28,7 @@ public class Main {
                 .rotate(new Vec2(0, 0), -45)
                 .scale(new Vec2(0.70, 0.70))
                 .build();
+        sixSides = new DropShadowDecorator(sixSides);
         sixSides = new SolidFillShapeDecorator(sixSides, "green");
         sixSides = new StrokeShapeDecorator(sixSides, "purple", 5.0);
         // starS
@@ -43,6 +44,7 @@ public class Main {
                 .rotate(new Vec2(0, 0), 15)
                 .scale(new Vec2(1.2, 1.2))
                 .build();
+        star = new DropShadowDecorator(star);
         star = new SolidFillShapeDecorator(star, "red");
         star = new StrokeShapeDecorator(star, "orange", 5.0);
         // square
@@ -54,6 +56,7 @@ public class Main {
                 .rotate(new Vec2(0, 0), 50)
                 .scale(new Vec2(0.8, 0.8))
                 .build();
+        square = new DropShadowDecorator(square);
         square = new SolidFillShapeDecorator(square, "pink");
         square = new StrokeShapeDecorator(square, "purple", 5.0);
         // ellipse
@@ -64,6 +67,7 @@ public class Main {
                 .rotate(new Vec2(0, 0), -20)
                 .scale(new Vec2(0.5, 0.5))
                 .build();
+        ellipse = new DropShadowDecorator(ellipse);
         ellipse = new SolidFillShapeDecorator(ellipse, "orange");
         ellipse = new StrokeShapeDecorator(ellipse, "blue", 5.0);
         // scene

@@ -37,6 +37,6 @@ public class TransformationDecorator extends ShapeDecorator {
 
     @Override
     public String toSvg(String parameters) {
-        return super.toSvg(String.format("%s transform=\"%s\"", parameters, this.transform));
+        return super.toSvg(String.format("%s\n\ttransform=\"%s\"", parameters, this.transform));
     }
 }

@@ -10,11 +10,10 @@ public class Polygon implements Shape {
     @Override
     public String toSvg(String parameters) {
         StringBuilder result = new StringBuilder();
-        String scene = "<svg height=\"280\" width=\"500\">\n";
         for (Vec2 vec2 : points)
             result.append(String.format("%f %f ", vec2.x, vec2.y));
-        return String.format(Locale.ENGLISH, "%s\t<polygon points=\"%s\"\n\t%s/>\n</svg>\n",
-                scene, result.toString(), parameters);
+        return String.format(Locale.ENGLISH, "<polygon points=\"%s\"\n\t%s/>\n\n",
+                result, parameters);
     }
 
     public static Vec2[] square(Segment diagonal) {
