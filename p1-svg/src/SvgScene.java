@@ -5,9 +5,21 @@ import java.util.ArrayList;
 
 public class SvgScene {
     private ArrayList<Shape> shapes;
+    private static SvgScene instance = null;
 
-    public SvgScene(ArrayList<Shape> shapes) {
-        this.shapes = shapes;
+//    public SvgScene(ArrayList<Shape> shapes) {
+//        this.shapes = shapes;
+//    }
+
+    public SvgScene() {
+        this.shapes = new ArrayList<>();
+    }
+
+    public static SvgScene getInstance() {
+        if (instance == null) {
+            instance = new SvgScene();
+        }
+        return instance;
     }
 
     public void add(Shape shape) {

@@ -1,10 +1,6 @@
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        // shapes list and scene
-        ArrayList<Shape> shapes = new ArrayList<>();
-        SvgScene scene = new SvgScene(shapes);
         // triangle
         Vec2 t1 = new Vec2(100, 10);
         Vec2 t2 = new Vec2(150, 190);
@@ -71,6 +67,7 @@ public class Main {
         ellipse = new SolidFillShapeDecorator(ellipse, "orange");
         ellipse = new StrokeShapeDecorator(ellipse, "blue", 5.0);
         // scene
+        SvgScene scene = SvgScene.getInstance();
         scene.add(triangle);
         scene.add(sixSides);
         scene.add(star);
