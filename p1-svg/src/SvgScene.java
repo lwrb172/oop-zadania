@@ -7,8 +7,9 @@ import java.util.List;
 public class SvgScene {
     private List<Shape> shapes = new ArrayList<>();
     private static SvgScene instance = null;
-    private List<String> defs = new ArrayList<>();
+    protected List<String> defs = new ArrayList<>();
     private static int index = 0;
+    private static int gradientIndex = 0;
 
     public SvgScene() {}
 
@@ -28,6 +29,13 @@ public class SvgScene {
                 String.format(filter, ++index)
         );
         return index;
+    }
+
+    public int addGradient(String filter) {
+        defs.add(
+                String.format(filter, ++gradientIndex)
+        );
+        return gradientIndex;
     }
 
     public void save(String path) {
