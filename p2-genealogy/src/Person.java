@@ -31,13 +31,29 @@ public class Person {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                    people.add(Person.fromCsvLine(line));
+                Person person = Person.fromCsvLine(line);
+                try {
+                    person.validateLifespan();
+                    people.add(person);
+                } catch (NegativeLifespanException e) {
+                    System.err.println(e.getMessage());
+                }
             }
             reader.close();
         } catch (IOException e) {
             System.err.println("Error reading CSV file" + e.getMessage());
         }
         return people;
+    }
+
+    public void validateLifespan() throws NegativeLifespanException {
+        if ( deathDate != null && deathDate.isBefore(birthDate)) {
+            throw new NegativeLifespanException(this);
+        }
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
