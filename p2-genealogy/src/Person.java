@@ -3,7 +3,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Person {
+public class Person implements Serializable {
     private final String name;
     private final LocalDate birthDate;
     private final LocalDate deathDate;
@@ -63,6 +63,25 @@ public class Person {
         }
 
         return people;
+    }
+
+    public static void toBinaryFile(List<Person> people, String fileName) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(people);
+        } catch (IOException e) {
+            System.err.println("Error writing to binary file: " + e.getMessage());
+        }
+    }
+
+    public static void fromBinaryFile(String path) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path))) {
+            List<Person> people = (List<Person>) ois.readObject();
+            for (Person person : people) {
+                System.out.println(person);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error reading from binary file: " + e.getMessage());
+        }
     }
 
     public void validateLifespan() throws NegativeLifespanException {
