@@ -1,10 +1,7 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Person {
     private final String name;
@@ -28,11 +25,11 @@ public class Person {
 
     public static List<Person> fromCsv(String path) throws IOException {
         File file = new File(path);
-        BufferedReader reader = new BufferedReader(new FileReader(file));
         List<Person> people = new ArrayList<>();
         Map<String, PersonWithParentStrings> peopleWithParentsStrings = new HashMap<>();
         String line;
-        try {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 var personWithParentStrings = PersonWithParentStrings.fromCsvLine(line);
@@ -51,22 +48,38 @@ public class Person {
         }
 
         PersonWithParentStrings.linkRelatives(peopleWithParentsStrings);
-        reader.close();
+
+        try {
+            for (Person person : people) {
+                person.validateParentAge();
+            }
+        } catch (ParentingAgeException e) {
+            System.out.println(e.getMessage());
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("do you want to remove this person? [Y|N]: ");
+            String answer = scanner.next();
+            if (answer.equals("Y") || answer.equals("y"))
+                people.remove(e.getPerson());
+        }
+
         return people;
     }
 
     public void validateLifespan() throws NegativeLifespanException {
-        if (deathDate != null && deathDate.isBefore(birthDate)) {
+        if (deathDate != null && deathDate.isBefore(birthDate))
             throw new NegativeLifespanException(this);
-        }
     }
 
     public void validateAmbiguity(List<Person> people) throws AmbiguousPersonException {
-        for (Person person : people) {
-            if (person.getName().equals(name)) {
+        for (Person person : people)
+            if (person.getName().equals(name))
                 throw new AmbiguousPersonException(person);
-            }
-        }
+    }
+
+    public void validateParentAge() throws ParentingAgeException {
+        for (Person parent : parents)
+            if (birthDate.isBefore(parent.birthDate.plusYears(15)) || (parent.deathDate != null && birthDate.isAfter(parent.deathDate)))
+                throw new ParentingAgeException(this, parent);
     }
 
     public void addParent(Person parent) {
@@ -75,6 +88,14 @@ public class Person {
 
     public String getName() {
         return name;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public LocalDate getDeathDate() {
+        return deathDate;
     }
 
     @Override
