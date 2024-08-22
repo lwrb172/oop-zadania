@@ -2,12 +2,15 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Person {
-    public String name;
-    public LocalDate birthDate;
-    public LocalDate deathDate;
+    private final String name;
+    private final LocalDate birthDate;
+    private final LocalDate deathDate;
+    private final List<Person> parents = new ArrayList<>();
 
     public Person(String name, LocalDate birthDate, LocalDate deathDate) {
         this.name = name;
@@ -23,27 +26,32 @@ public class Person {
         return new Person(buffer[0], birthDate, deathDate);
     }
 
-    public static List<Person> fromCsv(String path) {
+    public static List<Person> fromCsv(String path) throws IOException {
         File file = new File(path);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         List<Person> people = new ArrayList<>();
+        Map<String, PersonWithParentStrings> peopleWithParentsStrings = new HashMap<>();
         String line;
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                Person person = Person.fromCsvLine(line);
+                var personWithParentStrings = PersonWithParentStrings.fromCsvLine(line);
+                var person = personWithParentStrings.getPerson(); // Person.fromCsvLine(line);
                 try {
                     person.validateLifespan();
                     person.validateAmbiguity(people);
                     people.add(person);
+                    peopleWithParentsStrings.put(person.getName(), personWithParentStrings);
                 } catch (NegativeLifespanException | AmbiguousPersonException e) {
                     System.err.println(e.getMessage());
                 }
             }
-            reader.close();
         } catch (IOException e) {
             System.err.println("Error reading CSV file" + e.getMessage());
         }
+
+        PersonWithParentStrings.linkRelatives(peopleWithParentsStrings);
+        reader.close();
         return people;
     }
 
@@ -61,6 +69,10 @@ public class Person {
         }
     }
 
+    public void addParent(Person parent) {
+        parents.add(parent);
+    }
+
     public String getName() {
         return name;
     }
@@ -71,6 +83,7 @@ public class Person {
                 "name='" + name + '\'' +
                 ", birthDate=" + birthDate +
                 ", deathDate=" + deathDate +
+                ", parents=" + parents +
                 '}';
     }
 }
