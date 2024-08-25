@@ -2,6 +2,8 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Person implements Serializable {
     private final String name;
@@ -82,6 +84,31 @@ public class Person implements Serializable {
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error reading from binary file: " + e.getMessage());
         }
+    }
+
+    public String generateUML() {
+        // -- starting UML code --
+        StringBuilder result = new StringBuilder("@startuml\n");
+        // Function : John Doe -> JohnDoe
+        Function<Person, String> cleanPersonName = person -> person.getName().replaceAll(" ", "");
+        // Function : returning string "object cleanPersonName"
+        Function<Person, String> addObject = person -> String.format(
+                "object %s", cleanPersonName.apply(person)
+        );
+        // string with only cleanPersonName
+        String personName = cleanPersonName.apply(this);
+        // appending second Function to result string
+        result.append(addObject.apply(this));
+        // formatting and appending parents if existing
+        if (!parents.isEmpty()) {
+            String parentSections = parents.stream()
+                    .map(parent -> "\n" + addObject.apply(parent) + "\n" +
+                            cleanPersonName.apply(parent) + " <-- " + personName)
+                    .collect(Collectors.joining());
+            result.append(parentSections);
+        }
+        // returning full UML code in string
+        return result.append("\n@enduml").toString();
     }
 
     public void validateLifespan() throws NegativeLifespanException {
