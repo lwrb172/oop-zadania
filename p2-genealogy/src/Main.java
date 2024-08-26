@@ -17,6 +17,9 @@ public class Main {
         );
 
         // output
-        Person.filerByName(people, "Kowal").forEach(System.out::println);
+        System.out.println("filtered by name:");
+        Person.filerByName(people, "Dąb").forEach(System.out::println);
+        System.out.println("sorted by birth date:");
+        Person.sortByBirthDate(people).forEach(System.out::println);
     }
 }
