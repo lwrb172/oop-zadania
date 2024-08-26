@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -113,7 +114,7 @@ public class Person implements Serializable {
         return result.append("\n@enduml").toString();
     }
 
-    public static String generateDiagram(List<Person> people, Function<String, String> postProcess) {
+    public static String generateDiagram(List<Person> people, Predicate<Person> condition, Function<String, String> postProcess) {
         String result = "@startuml\n%s\n%s\n@enduml";
         // Function for formatting names : John Doe -> JohnDoe
         Function<String, String> objectName = str -> str.replaceAll(" ", "");
@@ -123,16 +124,25 @@ public class Person implements Serializable {
                 );
         // Function for adding postProcess to previous function at the end of returned string
         Function<String, String> objectLineWithPostProcess = objectLine.andThen(postProcess);
-        // HashMaps
-        Set<String> objects = new HashSet<>();
-        Set<String> relations = new HashSet<>();
-        // Consumer (void function) for adding formatted objects and relations to HashSets
-        Consumer<Person> addPerson = person -> {
-            objects.add(objectLineWithPostProcess.apply(person.name));
-            for (Person parent : person.parents)
-                relations.add(objectName.apply(parent.name) + "<--" + objectName.apply(person.name));
-        };
-        people.forEach(addPerson);
+        // Map with people based on condition arg
+        Map<Boolean, List<Person>> groupedPeople = people.stream()
+                .collect(Collectors.partitioningBy(condition));
+        // Set using previous map
+        Set<String> objects = groupedPeople.get(true).stream()
+                .map(person -> person.name)
+                .map(objectLineWithPostProcess)
+                .collect(Collectors.toSet());
+        objects.addAll(groupedPeople.get(false).stream()
+                .map(person -> person.name)
+                .map(objectLine)
+                .collect(Collectors.toSet())
+        );
+        // Set with relations
+        Set<String> relations = people.stream()
+                .flatMap(person -> person.parents.stream()
+                        .map(parent -> objectName.apply(parent.name) + "<--" +
+                                objectName.apply(person.name)))
+                .collect(Collectors.toSet());
         String objectString = String.join("\n", objects);
         String relationString = String.join("\n", relations);
         return String.format(result, objectString, relationString);
