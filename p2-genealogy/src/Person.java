@@ -137,6 +137,12 @@ public class Person implements Serializable {
         return result.append("\n@enduml").toString();
     }
 
+    public static List<Person> filerByName(List<Person> people, String substring) {
+        return people.stream()
+                .filter(person -> person.getName().contains(substring))
+                .collect(Collectors.toList());
+    }
+
     public void validateLifespan() throws NegativeLifespanException {
         if (deathDate != null && deathDate.isBefore(birthDate))
             throw new NegativeLifespanException(this);

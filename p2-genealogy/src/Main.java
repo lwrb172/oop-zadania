@@ -15,5 +15,8 @@ public class Main {
         PlantUMLRunner.generate(
                 Person.generateDiagram(people), "p2-genealogy/image_output", "diagram"
         );
+
+        // output
+        Person.filerByName(people, "Kowal").forEach(System.out::println);
     }
 }
