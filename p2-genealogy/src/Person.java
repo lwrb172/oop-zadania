@@ -148,6 +148,16 @@ public class Person implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    public static List<Person> sortByLifespan(List<Person> people) {
+        Function<Person, Long> getLifespan = person ->
+                person.deathDate.toEpochDay() - person.birthDate.toEpochDay();
+        // sorting by custom comparator
+        return people.stream()
+                .filter(person -> person.deathDate != null)
+                .sorted(((o1, o2) -> Long.compare(getLifespan.apply(o2), getLifespan.apply(o1))))
+                .toList();
+    }
+
     public void validateLifespan() throws NegativeLifespanException {
         if (deathDate != null && deathDate.isBefore(birthDate))
             throw new NegativeLifespanException(this);

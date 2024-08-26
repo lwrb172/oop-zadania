@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -21,5 +22,7 @@ public class Main {
         Person.filerByName(people, "Dąb").forEach(System.out::println);
         System.out.println("sorted by birth date:");
         Person.sortByBirthDate(people).forEach(System.out::println);
+        System.out.println("sorted by lifespan: ");
+        Person.sortByLifespan(people).forEach(System.out::println);
     }
 }
