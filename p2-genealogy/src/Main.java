@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -18,11 +17,13 @@ public class Main {
         );
 
         // output
-        System.out.println("filtered by name:");
+        System.out.println(" -- filtered by name --");
         Person.filerByName(people, "Dąb").forEach(System.out::println);
-        System.out.println("sorted by birth date:");
+        System.out.println(" -- sorted by birth date --");
         Person.sortByBirthDate(people).forEach(System.out::println);
-        System.out.println("sorted by lifespan: ");
+        System.out.println(" -- sorted by lifespan --");
         Person.sortByLifespan(people).forEach(System.out::println);
+        System.out.println(" -- The oldest living person --");
+        System.out.println(Person.findTheOldestLiving(people));
     }
 }

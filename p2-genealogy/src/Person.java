@@ -158,6 +158,14 @@ public class Person implements Serializable {
                 .toList();
     }
 
+    public static Person findTheOldestLiving(List<Person> people) {
+        // finding the earliest birt date
+        return people.stream()
+                .filter(person -> person.deathDate == null)
+                .min(Comparator.comparing(Person::getBirthDate))
+                .orElse(null);
+    }
+
     public void validateLifespan() throws NegativeLifespanException {
         if (deathDate != null && deathDate.isBefore(birthDate))
             throw new NegativeLifespanException(this);
