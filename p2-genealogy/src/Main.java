@@ -12,7 +12,8 @@ public class Main {
 
         // PlantUML diagram
         PlantUMLRunner.setJarPath("./p2-genealogy/plantuml-1.2024.6.jar");
-        for (Person person : people)
-            PlantUMLRunner.generate(person.generateUML(), "p2-genealogy/image_output", person.getName());
+        PlantUMLRunner.generate(
+                Person.generateDiagram(people), "p2-genealogy/image_output", "diagram"
+        );
     }
 }

@@ -2,8 +2,10 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Person implements Serializable {
     private final String name;
@@ -108,6 +110,30 @@ public class Person implements Serializable {
             result.append(parentSections);
         }
         // returning full UML code in string
+        return result.append("\n@enduml").toString();
+    }
+
+    public static String generateDiagram(List<Person> people) {
+        StringBuilder result = new StringBuilder("@startuml");
+        Function<Person, String> cleanPersonName = person -> person.getName().replaceAll(" ", "");
+        Function<Person, String> addObject = person -> String.format(
+                "object %s", cleanPersonName.apply(person)
+        );
+        // appending to string every person as formatted string
+        result.append(people.stream()
+                .map(person -> "\n" + addObject.apply(person))
+                .collect(Collectors.joining())
+        );
+        // appending parents to string if their exist
+        result.append(people.stream()
+                .flatMap(person ->
+                        person.parents.isEmpty() ? Stream.empty() :
+                        person.parents.stream()
+                                .map(parent -> "\n" + cleanPersonName.apply(parent) + " <-- " +
+                                        cleanPersonName.apply(person))
+                )
+                .collect(Collectors.joining()));
+        // returning diagram as UML code
         return result.append("\n@enduml").toString();
     }
 
