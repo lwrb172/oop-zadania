@@ -2,6 +2,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -112,28 +113,29 @@ public class Person implements Serializable {
         return result.append("\n@enduml").toString();
     }
 
-    public static String generateDiagram(List<Person> people) {
-        StringBuilder result = new StringBuilder("@startuml");
-        Function<Person, String> cleanPersonName = person -> person.getName().replaceAll(" ", "");
-        Function<Person, String> addObject = person -> String.format(
-                "object %s", cleanPersonName.apply(person)
-        );
-        // appending to string every person as formatted string
-        result.append(people.stream()
-                .map(person -> "\n" + addObject.apply(person))
-                .collect(Collectors.joining())
-        );
-        // appending parents to string if their exist
-        result.append(people.stream()
-                .flatMap(person ->
-                        person.parents.isEmpty() ? Stream.empty() :
-                        person.parents.stream()
-                                .map(parent -> "\n" + cleanPersonName.apply(parent) + " <-- " +
-                                        cleanPersonName.apply(person))
-                )
-                .collect(Collectors.joining()));
-        // returning diagram as UML code
-        return result.append("\n@enduml").toString();
+    public static String generateDiagram(List<Person> people, Function<String, String> postProcess) {
+        String result = "@startuml\n%s\n%s\n@enduml";
+        // Function for formatting names : John Doe -> JohnDoe
+        Function<String, String> objectName = str -> str.replaceAll(" ", "");
+        // Function for returning uml code string : object "John Doe" as JohnDoe
+        Function<String, String> objectLine = str -> String.format(
+                "object \"%s\" as %s", str, objectName.apply(str)
+                );
+        // Function for adding postProcess to previous function at the end of returned string
+        Function<String, String> objectLineWithPostProcess = objectLine.andThen(postProcess);
+        // HashMaps
+        Set<String> objects = new HashSet<>();
+        Set<String> relations = new HashSet<>();
+        // Consumer (void function) for adding formatted objects and relations to HashSets
+        Consumer<Person> addPerson = person -> {
+            objects.add(objectLineWithPostProcess.apply(person.name));
+            for (Person parent : person.parents)
+                relations.add(objectName.apply(parent.name) + "<--" + objectName.apply(person.name));
+        };
+        people.forEach(addPerson);
+        String objectString = String.join("\n", objects);
+        String relationString = String.join("\n", relations);
+        return String.format(result, objectString, relationString);
     }
 
     public static List<Person> filerByName(List<Person> people, String substring) {
