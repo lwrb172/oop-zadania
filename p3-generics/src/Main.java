@@ -1,3 +1,5 @@
+import java.util.function.Predicate;
+
 public class Main {
     public static void main(String[] args) {
         { // test adding last
@@ -48,5 +50,14 @@ public class Main {
             var list2 = CustomList.filterByClass(list, Number.class);
             System.out.println(list2);
         }
+
+        {
+            CustomList<Integer> list = new CustomList<>();
+            for (int i = 0; i < 10; i++) list.addLast(i);
+
+            long count = CustomList.countElementsInInterval(list, 2, 8);
+            System.out.println("Liczba elementów w przedziale (2, 8): " + count);
+        }
+
     }
 }
