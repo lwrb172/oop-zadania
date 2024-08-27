@@ -1,6 +1,7 @@
+import java.util.AbstractList;
 import java.util.NoSuchElementException;
 
-public class CustomList<T> {
+public class CustomList<T> extends AbstractList<T> {
     private class Node {
         public Node next;
         public T value;
@@ -12,10 +13,28 @@ public class CustomList<T> {
     }
 
     private Node head, tail;
+    private int size = 0;
 
     public CustomList() {
         this.head = null;
         this.tail = null;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public T get(int index) {
+        Node node = head;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
+            if (node == null) {
+                throw new NoSuchElementException("index is out of bounds");
+            }
+        }
+        return node.value;
     }
 
     public void addLast(T value) {
@@ -27,6 +46,7 @@ public class CustomList<T> {
             tail.next = new Node(value);
             tail = tail.next;
         }
+        size++;
     }
 
     public void addFirst(T value) {
@@ -39,6 +59,7 @@ public class CustomList<T> {
             newHead.next = head;
             head = newHead;
         }
+        size++;
     }
 
     public T getLast() {
@@ -51,7 +72,7 @@ public class CustomList<T> {
         return head.value;
     }
 
-    public void removeLast() {
+    public T removeLast() {
         if (tail == null) throw new NoSuchElementException("Trying to remove element from empty list");
         assert head != null;
 
@@ -64,11 +85,15 @@ public class CustomList<T> {
             tail = node;
             node.next = null;
         }
+        size--;
+        return null;
     }
 
-    public void removeFirst() {
+    public T removeFirst() {
         if (head == null) throw new NoSuchElementException("Trying to remove element from empty list");
         head = head.next;
+        size--;
+        return null;
     }
 
     @Override
@@ -80,7 +105,8 @@ public class CustomList<T> {
             result.append(node.value).append(" ");
             node = node.next;
         }
-        result.append("]");
+        result.append("] size=");
+        result.append(size);
         return result.toString();
     }
 }
