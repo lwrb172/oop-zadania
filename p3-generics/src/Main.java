@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.function.Predicate;
 
 public class Main {
@@ -54,9 +57,22 @@ public class Main {
         {
             CustomList<Integer> list = new CustomList<>();
             for (int i = 0; i < 10; i++) list.addLast(i);
-
             long count = CustomList.countElementsInInterval(list, 2, 8);
             System.out.println("Liczba elementów w przedziale (2, 8): " + count);
+
+            CustomList<Integer> list1 = new CustomList<>();
+            list1.addAll(Arrays.asList(1, 2, 3));
+            CustomList<Integer> list2 = new CustomList<>();
+            list2.addAll(Arrays.asList(4, 5));
+
+            // Porównanie po liczbie elementów
+            // nwm czemu wychodzi zły output
+            int comparisonBySize = CustomList.bySizeComparator().compare(Collections.singleton(Collections.singleton(list1)), list2);
+            System.out.println("Porównanie po rozmiarze: " + comparisonBySize);
+
+            // Porównanie po sumie
+            int comparisonBySum = CustomList.bySumComparator().compare(list1, list2);
+            System.out.println("Porównanie po sumie: " + comparisonBySum);
         }
 
     }

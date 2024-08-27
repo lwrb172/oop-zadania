@@ -147,6 +147,18 @@ public class CustomList<T> extends AbstractList<T> {
                 .count();
     }
 
+    public static <T> Comparator<Collection<T>> bySizeComparator() {
+        return Comparator.comparingInt(Collection::size);
+    }
+
+    public static Comparator<Collection<? extends Number>> bySumComparator() {
+        return (c1, c2) -> {
+            double sum1 = c1.stream().mapToDouble(Number::doubleValue).sum();
+            double sum2 = c2.stream().mapToDouble(Number::doubleValue).sum();
+            return Double.compare(sum1, sum2);
+        };
+    }
+
     @Override
     public String toString() {
         if (head == null) return "CustomList []";
