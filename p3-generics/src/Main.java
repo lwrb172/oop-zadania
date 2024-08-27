@@ -66,8 +66,8 @@ public class Main {
             list2.addAll(Arrays.asList(4, 5));
 
             // Porównanie po liczbie elementów
-            // nwm czemu wychodzi zły output
-            int comparisonBySize = CustomList.bySizeComparator().compare(Collections.singleton(Collections.singleton(list1)), list2);
+            // nwm czemu zły output
+            int comparisonBySize = CustomList.bySizeComparator().compare(Collections.singleton(list1), Collections.singleton(list2));
             System.out.println("Porównanie po rozmiarze: " + comparisonBySize);
 
             // Porównanie po sumie
