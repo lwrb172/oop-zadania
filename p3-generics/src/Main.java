@@ -33,6 +33,10 @@ public class Main {
                 System.out.println(list);*/
             //}
             for (Integer integer : list) System.out.print(integer);
+
+            list.stream()
+                    .map(integer -> integer + 10)
+                    .forEach(System.out::println);
         }
     }
 }

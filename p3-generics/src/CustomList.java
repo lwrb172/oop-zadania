@@ -1,5 +1,7 @@
 import java.util.AbstractList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 public class CustomList<T> extends AbstractList<T> {
     private class Node {
@@ -76,7 +78,9 @@ public class CustomList<T> extends AbstractList<T> {
         if (tail == null) throw new NoSuchElementException("Trying to remove element from empty list");
         assert head != null;
 
+        T result;
         if (head == tail) {
+            result = tail.value;
             head = tail = null;
         } else {
             Node node = head;
@@ -84,16 +88,44 @@ public class CustomList<T> extends AbstractList<T> {
                 node = node.next;
             tail = node;
             node.next = null;
+            result = node.value;
         }
         size--;
-        return null;
+        return result;
     }
 
     public T removeFirst() {
         if (head == null) throw new NoSuchElementException("Trying to remove element from empty list");
+        T result = head.value;
         head = head.next;
         size--;
-        return null;
+        return result;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            Node node = head;
+            @Override
+            public boolean hasNext() {
+                return node != null;
+            }
+
+            @Override
+            public T next() {
+                T result = node.value;
+                node = node.next;
+                return result;
+            }
+        };
+    }
+
+    @Override
+    public Stream<T> stream() {
+        Stream.Builder<T> builder = Stream.builder();
+        for (T i : this)
+            builder.accept(i);
+        return builder.build();
     }
 
     @Override
