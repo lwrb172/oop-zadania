@@ -38,5 +38,15 @@ public class Main {
                     .map(integer -> integer + 10)
                     .forEach(System.out::println);
         }
+
+        {
+            CustomList<Object> list = new CustomList<>();
+            list.addLast(0.123f);
+            list.addLast(.99d);
+            list.addLast("Hello!");
+
+            var list2 = CustomList.filterByClass(list, Number.class);
+            System.out.println(list2);
+        }
     }
 }
