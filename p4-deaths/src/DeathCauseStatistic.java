@@ -35,33 +35,15 @@ public class DeathCauseStatistic {
                 '}';
     }
 
-    public class AgeBracketDeaths {
-        public final int young, old, deathCount;
+    public record AgeBracketDeaths(int young, int old, int deathCount) {}
 
-        public AgeBracketDeaths(int young, int old, int deathCount) {
-            this.young = young;
-            this.old = old;
-            this.deathCount = deathCount;
-        }
-
-        private AgeBracketDeaths createAgeBracket(String bracket, int index) {
-            int start, end;
-            String[] parts = bracket.split(" - ");
-            start = Integer.parseInt(parts[0]);
-            end = Integer.parseInt(parts[1]);
-            return new AgeBracketDeaths(start, end, getDeaths()[index]);
-        }
-
-        public AgeBracketDeaths getBracket(int age) {
-            String header = "Kod,Razem,0 – 4,5 - 9,10 - 14,15 - 19,20 - 24,25 - 29,30 - 34,35 - 39,40 - 44,45 - 49,50 - 54,55 - 59,60 - 64,65 - 69,70 - 74,75 - 79,80 - 84,85 - 89,90 - 94,95 lat i więcej\n";
-            List<String> ageBrackets = Stream.of(header.split(","))
-                    .skip(2) // pomija pierwsze dwa elementy
-                    .toList();
-            return IntStream.range(0, ageBrackets.size())
-                    .mapToObj(i -> createAgeBracket(ageBrackets.get(i), i))
-                    .filter(abd -> age >= abd.young && age <= abd.old)
-                    .findFirst()
-                    .orElse(null);
-        }
+    public AgeBracketDeaths getAgeBracketDeaths(Integer age) {
+        int index = age >= 100 ? deaths.length - 1 : age / 5;
+        return new AgeBracketDeaths(
+                index * 5,
+                index == deaths.length - 1 ? 999 : index * 5 + 4,
+                deaths[index]
+        );
     }
+
 }
