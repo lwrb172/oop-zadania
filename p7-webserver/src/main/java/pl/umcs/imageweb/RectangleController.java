@@ -1,6 +1,8 @@
 package pl.umcs.imageweb;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -15,17 +17,12 @@ public class RectangleController {
         return "Hello world";
     }
 
-    @GetMapping("rect")
-    public Rectangle rect() {
-        return new Rectangle(4, 2, 6, 9, "red");
-    }
-
     @GetMapping("addRect")
     public void addRect() {
         rectangleList.add(new Rectangle(5, 8, 3, 7, "green"));
     }
 
-    @GetMapping("getRect")
+    @GetMapping("rect")
     public List<Rectangle> getRect() {
         return rectangleList;
     }
@@ -43,4 +40,10 @@ public class RectangleController {
         result.append("</svg>");
         return result.toString();
     }
+
+    @PostMapping("postRect")
+    public void postRect(@RequestBody Rectangle rectangle) {
+        rectangleList.add(rectangle);
+    }
+    // curl -X POST -H 'Content-Type:application/json' -d '{"x": 50, "y": 70, "w": 30, "h": 60, "color": "blue"}' localhost:8080/rect
 }
