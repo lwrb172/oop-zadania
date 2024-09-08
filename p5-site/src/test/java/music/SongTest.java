@@ -24,6 +24,12 @@ public class SongTest {
         assertEquals(expectedSong, testSong.get());
     }
 
+    @Test
+    void readSingleWrongID() {
+        Optional<Song> testSong = Song.Persistence.read(53);
+        assertFalse(testSong.isPresent());
+    }
+
     @AfterAll
     static void closeDatabase() {
         DatabaseConnection.disconnect("songs");
