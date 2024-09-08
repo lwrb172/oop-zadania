@@ -13,5 +13,13 @@
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>lwrb172</name>
+            <url>https://github.com/lwrb172/oop-zadania</url>
+        </repository>
+    </distributionManagement>
+
 </project>
