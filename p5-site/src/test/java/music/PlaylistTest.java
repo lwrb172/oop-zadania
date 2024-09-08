@@ -26,4 +26,15 @@ public class PlaylistTest {
         playlist.add(song);
         assertEquals(song, playlist.getFirst());
     }
+
+    @Test
+    void testEqualElement() {
+        Playlist playlist = new Playlist();
+        playlist.add(new Song("Atr", "000", 180));
+        assertEquals(1, playlist.size());
+        Song song = new Song("Atr", "000", 180);
+        playlist.add(song);
+        Song sameSong = new Song("Atr", "000", 180);
+        assertEquals(sameSong, song);
+    }
 }
