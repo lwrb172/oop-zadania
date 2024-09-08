@@ -9,4 +9,9 @@ public class RectangleController {
     public String hello() {
         return "Hello world";
     }
+
+    @GetMapping("rect")
+    public Rectangle rect() {
+        return new Rectangle(4, 2, 6, 9, "red");
+    }
 }
