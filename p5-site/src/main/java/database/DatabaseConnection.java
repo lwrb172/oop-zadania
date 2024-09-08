@@ -1,29 +1,47 @@
 package database;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private Connection connection;
 
-    public Connection getConnection() {
-        return connection;
+    static private final Map<String, Connection> connections = new HashMap<>();
+
+    static public Connection getConnection() {
+        return getConnection("");
     }
 
-    public void connect(String filePath) {
+    static public Connection getConnection(String name) {
+        return connections.get(name);
+    }
+
+    static public void connect(String filePath) {
+        connect(filePath, "");
+    }
+
+    static public void connect(String filePath, String connectionName){
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:" + filePath);
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:" + filePath);
+            connections.put(connectionName, connection);
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
-    public void disconnect() {
+    static public void disconnect() {
+        disconnect("");
+    }
+
+    static public void disconnect(String connectionName){
         try {
+            Connection connection = connections.get(connectionName);
             connection.close();
+            connections.remove(connectionName);
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }
+
