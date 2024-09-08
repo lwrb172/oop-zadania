@@ -18,4 +18,12 @@ public class PlaylistTest {
         playlist.add(new Song("Atr", "000", 180));
         assertEquals(1, playlist.size());
     }
+
+    @Test
+    void testSameElement() {
+        Playlist playlist = new Playlist();
+        Song song = new Song("Atr", "000", 180);
+        playlist.add(song);
+        assertEquals(song, playlist.getFirst());
+    }
 }
