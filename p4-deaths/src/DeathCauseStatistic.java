@@ -1,9 +1,4 @@
-import java.io.FileWriter;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class DeathCauseStatistic {
     private String ICD10;
@@ -21,10 +16,6 @@ public class DeathCauseStatistic {
                 .mapToInt(s -> s.equals("-") ? 0 : Integer.parseInt(s))
                 .toArray();
         return new DeathCauseStatistic(icd, deaths);
-    }
-
-    public int[] getDeaths() {
-        return deaths;
     }
 
     @Override
