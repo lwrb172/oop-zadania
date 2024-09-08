@@ -1,6 +1,7 @@
 package pl.umcs;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -122,5 +123,34 @@ public class ImageProcessor {
                     rgb & 0xFF;
             default -> throw new IllegalArgumentException("Invalid channel: " + channel);
         };
+    }
+
+    public BufferedImage generateHistogramImage(int[] histogram) {
+        // Define image dimension (adjust as needed)
+        int width = 256;
+        int height = 256;
+
+        // Create a new BufferedImage for the histogram chart
+        BufferedImage histogramImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        // Get the maximum value in the histogram for scaling
+        int maxValue = IntStream.of(histogram).max().getAsInt();
+
+        // Loop through each pixel and set its color based on histogram data
+        for (int x = 0; x < width; x++) {
+            int value = histogram[x];
+            int barHeight = (int) Math.round(((double) value / maxValue) * height);
+
+            // Draw the bar in black color
+            for (int y = height - 1; y >= height - barHeight; y--)
+                histogramImage.setRGB(x, y, Color.BLACK.getRGB());
+        }
+
+        // Draw the axes (optional)
+        for (int y = 0; y < height; y++)
+            histogramImage.setRGB(0, y, Color.GRAY.getRGB()); // Y-axis
+        for (int x = 0; x < width; x++)
+            histogramImage.setRGB(x, height - 1, Color.GRAY.getRGB()); // X-axis
+        return histogramImage;
     }
 }
