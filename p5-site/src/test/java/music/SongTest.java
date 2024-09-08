@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Optional;
@@ -50,6 +51,19 @@ public class SongTest {
         assertTrue(testSong.isPresent());
         assertEquals(expectedSong, testSong.get());
      }
+
+     @ParameterizedTest
+     @CsvFileSource(
+             files = "src/main/resources/songs.csv",
+             useHeadersInDisplayName = true
+     )
+     void readSongsFromCsv(int id, String artist, String title, int duration) {
+        Optional<Song> testSong = Song.Persistence.read(id);
+        Song expectedSong = new Song(artist, title, duration);
+        assertTrue(testSong.isPresent());
+        assertEquals(expectedSong, testSong.get());
+     }
+
 
 
     @AfterAll
