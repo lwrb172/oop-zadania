@@ -8,6 +8,8 @@ public class Main {
 
         try {
             imageProcessor.readImage("p6-image/src/main/resources/adolf.jpeg");
+
+            int[] redHistogram = imageProcessor.calculatedChannelHistogram(0);
             {
                 long startTime = System.currentTimeMillis();
                 imageProcessor.setBrightness(100);
