@@ -8,11 +8,21 @@ public class Main {
 
         try {
             imageProcessor.readImage("p6-image/src/main/resources/adolf.jpeg");
-            imageProcessor.setBrightness(-50);
-            imageProcessor.setBrightness(-50);
+            {
+                long startTime = System.currentTimeMillis();
+                imageProcessor.setBrightness(-100);
+                long endTime = System.currentTimeMillis();
+                System.out.println(endTime - startTime);
+            }
+            {
+                long startTime = System.currentTimeMillis();
+                imageProcessor.setBrightnessThreads(-100);
+                long endTime = System.currentTimeMillis();
+                System.out.println(endTime - startTime);
+            }
             imageProcessor.writeImage("p6-image/src/main/resources/output_adolf.jpeg");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | InterruptedException e) {
+            System.err.println(e.getMessage());
         }
 
     }
