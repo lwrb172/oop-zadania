@@ -4,6 +4,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.clamp;
 
@@ -48,5 +51,32 @@ public class ImageProcessor {
         }
         for (int i = 0; i < threadsCount; i++)
             threads[i].join();
+    }
+
+    public void setBrightnessThreadPool(int brightness) {
+        int threadsCount = Runtime.getRuntime().availableProcessors();
+        ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
+        for (int i = 0; i < image.getHeight(); i++) {
+            final int y = i;
+            executor.execute(() -> {
+                for (int x = 0; x < image.getWidth(); x++) {
+                    int rgb = image.getRGB(x, y);
+                    int blue = rgb&0xFF;
+                    int green = (rgb&0xFF00)>>8;
+                    int red = (rgb&0xFF0000)>>16;
+                    blue = clamp(blue + brightness, 0, 255);
+                    green = clamp(green + brightness, 0, 255);
+                    red = clamp(red + brightness, 0, 255);
+                    rgb = (red<<16) + (green<<8) + blue;
+                    image.setRGB(x, y, rgb);
+                }
+            });
+        }
+        executor.shutdown();
+        try {
+            boolean b = executor.awaitTermination(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
