@@ -47,4 +47,11 @@ public class Client implements Runnable {
         socket.close();
         server.clientLeft(this);
     }
+
+    private void parseMessage(String message) {
+        if (message.equals("/online"))
+            send(server.serverUsersLogins().toString());
+        else
+            server.broadcast(message);
+    }
 }

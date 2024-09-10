@@ -47,4 +47,8 @@ public class Server {
         for (Client currentClient : clients)
             currentClient.send(String.format("%s logged off", leavingClient.getLogin()));
     }
+
+    public List<String> serverUsersLogins() {
+        return clientMap.keySet().stream().toList();
+    }
 }
