@@ -52,6 +52,6 @@ public class Client implements Runnable {
         if (message.equals("/online"))
             send(server.serverUsersLogins().toString());
         else
-            server.broadcast(message);
+            server.broadcast(String.format("<%s> %s", getLogin(), message));
     }
 }
